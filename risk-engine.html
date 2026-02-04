@@ -1,0 +1,451 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Risk Engine – Bear 9 Fifteen</title>
+
+  <!-- Chart.js CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+  <style>
+    body {
+      font-family: Arial, Helvetica, sans-serif;
+      background: #FFFBED;
+      color: #1F2A0A;
+      margin: 0;
+    }
+
+    header {
+      padding: 40px 20px;
+      border-bottom: 1px solid #d6d3c4;
+    }
+
+    .header-wrap {
+      max-width: 1100px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    header h1 {
+      margin: 0;
+      font-size: 28px;
+    }
+
+    header p {
+      margin-top: 8px;
+      font-size: 15px;
+      color: #5a6a45;
+    }
+
+    nav a {
+      text-decoration: none;
+      font-size: 14px;
+      font-weight: bold;
+      color: #1F2A0A;
+      border: 1px solid #d6d3c4;
+      padding: 10px 16px;
+      border-radius: 10px;
+      background: #f4f2e6;
+    }
+
+    .container {
+      max-width: 1000px;
+      margin: 45px auto;
+      padding: 0 20px;
+    }
+
+    .search-box {
+      background: #ffffff;
+      padding: 26px;
+      border-radius: 16px;
+      box-shadow: 0 10px 26px rgba(0,0,0,0.08);
+      margin-bottom: 35px;
+      text-align: center;
+    }
+
+    .search-box input {
+      width: 60%;
+      padding: 14px;
+      font-size: 16px;
+      border-radius: 10px;
+      border: 1px solid #d6d3c4;
+    }
+
+    .search-box button {
+      padding: 14px 22px;
+      margin-left: 10px;
+      font-size: 15px;
+      font-weight: bold;
+      border-radius: 10px;
+      border: none;
+      background: #1F2A0A;
+      color: #fff;
+      cursor: pointer;
+    }
+
+    .card {
+      display: none;
+      background: #ffffff;
+      border-radius: 16px;
+      padding: 32px;
+      box-shadow: 0 10px 26px rgba(0,0,0,0.08);
+    }
+
+    .chart {
+      margin: 20px 0;
+      text-align: center;
+    }
+
+    .chart button {
+      margin-top: 12px;
+      padding: 10px 18px;
+      font-weight: bold;
+      border-radius: 8px;
+      border: none;
+      background: #1F2A0A;
+      color: #fff;
+      cursor: pointer;
+    }
+
+    .risk-score {
+      font-size: 30px;
+      font-weight: bold;
+      color: #8B0000;
+      margin-top: 10px;
+    }
+
+    footer {
+      text-align: center;
+      padding: 30px;
+      font-size: 13px;
+      color: #5a6a45;
+    }
+
+    /* === Regulatory Risk Table (ONLY ADDITION) === */
+    .reg-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 14px;
+      font-size: 14px;
+    }
+
+    .reg-table th {
+      background: #f4f2e6;
+      border: 1px solid #d6d3c4;
+      padding: 10px;
+      text-align: left;
+    }
+
+    .reg-table td {
+      border: 1px solid #d6d3c4;
+      padding: 10px;
+      vertical-align: top;
+    }
+
+    .sev-high {
+      font-weight: bold;
+      color: #8B0000;
+    }
+
+    .sev-medium {
+      font-weight: bold;
+      color: #B8860B;
+    }
+  </style>
+</head>
+
+<body>
+
+<header>
+  <div class="header-wrap">
+    <div>
+      <h1>Risk Engine</h1>
+      <p>We analyse where investments can break.</p>
+    </div>
+    <nav>
+      <a href="index.html">← Back to Home</a>
+    </nav>
+  </div>
+</header>
+
+<div class="container">
+
+  <div class="search-box">
+    <input type="text" id="companyInput" placeholder="Enter company name (e.g. Bharti Airtel)" />
+    <button onclick="analyzeCompany()">Analyze Risk</button>
+  </div>
+
+  <div class="card" id="resultCard">
+
+    <h2 id="companyName"></h2>
+
+    <h3>1. Industry & Structural Risk</h3>
+    <p id="industryRisk"></p>
+
+    <h3>2. Profitability Risk</h3>
+
+    <div class="chart">
+      <canvas id="incomeChart" height="120"></canvas>
+      <br />
+      <button onclick="startPriceAnimation()">Show Income Level</button>
+    </div>
+
+    <p id="profitabilityRisk"></p>
+
+    <h3>3. Debt & Balance Sheet Risk</h3>
+    <p id="debtRisk"></p>
+
+    <h3>4. Regulatory & Policy Risk</h3>
+    <div id="regulatoryRisk"></div>
+
+    <h3>5. Shareholding Pattern & Risk</h3>
+    <p id="shareholdingRisk"></p>
+<div class="chart">
+  <canvas id="shareholdingChart" height="120"></canvas>
+  <br />
+  <button onclick="startShareholdingAnimation()">Show Shareholding Trend</button>
+</div>
+
+    <h3>6. Price Action & Support Levels</h3>
+    <p id="priceLevelRisk"></p>
+
+    <h3>Overall Risk Verdict</h3>
+    <p class="risk-score" id="riskScore"></p>
+
+  </div>
+</div>
+
+<footer>
+  © 2026 Bear 9 Fifteen · Risk Engine (Manual / MVP Phase)
+</footer>
+
+<script>
+let chart;
+let animationIndex = 0;
+let animationTimer;
+
+const incomeData = [
+  { year: 2015, value: 3019 },
+  { year: 2016, value: 5048 },
+  { year: 2017, value: 6893 },
+  { year: 2018, value: 4241 },
+  { year: 2019, value: 2184 },
+  { year: 2020, value: 1688 },
+  { year: 2021, value: -30664 },
+  { year: 2022, value: -12364 },
+  { year: 2023, value: 8305 },
+  { year: 2024, value: 12287 },
+  { year: 2025, value: 8558 }
+];
+
+function buildChart() {
+  const ctx = document.getElementById("incomeChart").getContext("2d");
+
+  chart = new Chart(ctx, {
+    type: "line",
+    data: {
+      labels: [],
+      datasets: [{
+        label: "Net Income / Price Action",
+        data: [],
+        borderColor: "#1F2A0A",
+        borderWidth: 3,
+        pointRadius: 4,
+        pointBackgroundColor: "#1F2A0A",
+        tension: 0.35
+      }]
+    },
+    options: {
+      responsive: true,
+      animation: false
+    }
+  });
+}
+
+function startPriceAnimation() {
+  if (!chart) return;
+
+  chart.data.labels = [];
+  chart.data.datasets[0].data = [];
+  chart.update();
+
+  animationIndex = 0;
+  clearInterval(animationTimer);
+
+  animationTimer = setInterval(() => {
+    if (animationIndex >= incomeData.length) {
+      clearInterval(animationTimer);
+      return;
+    }
+
+    chart.data.labels.push(incomeData[animationIndex].year);
+    chart.data.datasets[0].data.push(incomeData[animationIndex].value);
+    chart.update();
+
+    animationIndex++;
+  }, 500);
+}
+
+const companyData = {
+  "bharti airtel": {
+    name: "Bharti Airtel Ltd",
+    industryRisk:
+      "Telecommunication is a capital-intensive and highly regulated industry, exposed to pricing pressure, recurring spectrum costs, and long payback cycles.",
+    profitabilityRisk:
+      "Earnings over the decade show sharp volatility with deep losses during FY21–FY22 followed by recovery, making profitability highly risk-sensitive.",
+    debtRisk:
+     "Key Risks Identified:\n\n" + "• High Debt Burden: Non-current liabilities exceed ₹136,932 Cr, with total liabilities of ₹181,492 Cr against equity of ₹75,896 Cr, resulting in a debt-to-equity ratio above 1.4. This elevates sensitivity to interest rate movements and refinancing risk.\n\n" + "• Weak Liquidity: Current liabilities (~₹45,683 Cr) significantly exceed current assets (~₹25,347 Cr), implying a current ratio below 1 and reliance on operational cash flows or refinancing to meet short-term obligations.\n\n" + "• Asset–Liability Mismatch: Fixed assets (~₹140,614 Cr) dominate the balance sheet relative to liquid investments (~₹15,531 Cr), locking capital into illiquid telecom infrastructure exposed to technological obsolescence and regulatory shifts.\n\n" + "• Other Liabilities Exposure: Elevated and opaque ‘other non-current liabilities’ (including potential AGR dues or deferred spectrum payments) add contingent risk, with total liabilities signaling balance-sheet stress in a competitive market.\n\n" + "Mitigation Insight:\n" + "Strong revenue growth and operating cash flows may partially offset leverage risks if debt reduction continues. However, any rise in short-term borrowings or delays in tariff improvements would materially amplify balance-sheet concerns. Continuous monitoring of quarterly leverage and liquidity trends remains critical.",
+    regulatoryRisk:
+      `
+      <table class="reg-table">
+        <tr>
+          <th>Regulation</th>
+          <th>Key Requirement</th>
+          <th>Risk Type</th>
+          <th>Impact on Airtel</th>
+          <th>Severity</th>
+        </tr>
+        <tr>
+          <td><b>National Telecom Policy 2025 (NTP-25)</b></td>
+          <td>Affordable 5G rollout, local manufacturing, digital sovereignty</td>
+          <td><b>Financial / Strategic</b></td>
+          <td>Heavy capex burden for 5G/6G rollout, pricing pressure, vendor dependency risk</td>
+          <td class="sev-high">High</td>
+        </tr>
+        <tr>
+          <td><b>Telecommunication Tariff (71st Amendment) Order, 2025</b></td>
+          <td>Transparent tariffs, consumer protection, limits on bundling</td>
+          <td><b>Revenue / Operational</b></td>
+          <td>Lower ARPU, tariff restructuring, compliance cost, pricing competition</td>
+          <td class="sev-medium">Medium–High</td>
+        </tr>
+        <tr>
+          <td><b>Telecom Commercial Communications Preference (2nd Amendment), 2025</b></td>
+          <td>Spam control, customer consent enforcement</td>
+          <td><b>Compliance / Reputation</b></td>
+          <td>Monitoring costs, penalties, reduced enterprise SMS revenue</td>
+          <td class="sev-medium">Medium</td>
+        </tr>
+      </table>
+      `,
+    shareholdingRisk:
+      "High FII ownership exposes the stock to global capital flow shocks,also declining promoter stake raises governance risks, as reduced family control (Bharti family) could lead to strategic shifts or vulnerability to takeovers if below 50%.",
+    priceLevelRisk:
+      "S1 ₹1925 S2 ₹1919 S3 ₹1868 S4 ₹1858 S5 ₹1853 (Moderate breakdown risks amid ongoing correction and telecom volatility)",
+    riskScore:
+      "SHAREHOLDING (3/5) DEBT & BALANCE SHEET (3.5) INDUSTRY & PROFITABILITY (3/5) REGULATORY & POLICY (3/5)"
+  }
+};
+
+function analyzeCompany() {
+  const input = document.getElementById("companyInput").value.toLowerCase();
+  const data = companyData[input];
+  const card = document.getElementById("resultCard");
+
+  if (!data) {
+    alert("Company analysis not available yet.");
+    card.style.display = "none";
+    return;
+  }
+
+  document.getElementById("companyName").innerText = data.name;
+  document.getElementById("industryRisk").innerText = data.industryRisk;
+  document.getElementById("profitabilityRisk").innerText = data.profitabilityRisk;
+  document.getElementById("debtRisk").innerText = data.debtRisk;
+  document.getElementById("regulatoryRisk").innerHTML = data.regulatoryRisk;
+  document.getElementById("shareholdingRisk").innerText = data.shareholdingRisk;
+  document.getElementById("priceLevelRisk").innerText = data.priceLevelRisk;
+  document.getElementById("riskScore").innerText = data.riskScore;
+
+  card.style.display = "block";
+if (!shareholdingChart) buildShareholdingChart();
+
+
+  if (!chart) buildChart();
+}
+</script>
+
+<script>
+let shareholdingChart;
+let shareIndex = 0;
+let shareTimer;
+
+const shareholdingYears = ["2020", "2021", "2022", "2023", "2024", "2025"];
+
+const shareholdingData = {
+  promoters: [58.98, 55.86, 55.93, 55.02, 53.48, 52.42],
+  fiis: [20.29, 18.57, 19.36, 20.97, 24.35, 25.41],
+  diis: [15.83, 20.35, 19.50, 19.78, 19.20, 19.23],
+  govt: [0, 0, 0, 0.12, 0.12, 0.12],
+  retail: [4.87, 5.16, 5.16, 4.05, 2.80, 2.75]
+};
+
+function buildShareholdingChart() {
+  const ctx = document.getElementById("shareholdingChart").getContext("2d");
+
+  shareholdingChart = new Chart(ctx, {
+    type: "bar",
+    data: {
+      labels: [],
+      datasets: [
+        { label: "Promoters", data: [], backgroundColor: "#4E79A7" },
+        { label: "FIIs", data: [], backgroundColor: "#F28E2B" },
+        { label: "DIIs", data: [], backgroundColor: "#9C9C9C" },
+        { label: "Government", data: [], backgroundColor: "#EDC948" },
+        { label: "Retail", data: [], backgroundColor: "#59A14F" }
+      ]
+    },
+    options: {
+      responsive: true,
+      animation: false,
+      scales: {
+        y: {
+          beginAtZero: true,
+          ticks: {
+            callback: value => value + "%"
+          }
+        }
+      },
+      plugins: {
+        legend: { position: "bottom" }
+      }
+    }
+  });
+}
+
+function startShareholdingAnimation() {
+  if (!shareholdingChart) buildShareholdingChart();
+
+  // reset
+  shareholdingChart.data.labels = [];
+  shareholdingChart.data.datasets.forEach(ds => ds.data = []);
+  shareholdingChart.update();
+
+  shareIndex = 0;
+  clearInterval(shareTimer);
+
+  shareTimer = setInterval(() => {
+    if (shareIndex >= shareholdingYears.length) {
+      clearInterval(shareTimer);
+      return;
+    }
+
+    shareholdingChart.data.labels.push(shareholdingYears[shareIndex]);
+
+    shareholdingChart.data.datasets[0].data.push(shareholdingData.promoters[shareIndex]);
+    shareholdingChart.data.datasets[1].data.push(shareholdingData.fiis[shareIndex]);
+    shareholdingChart.data.datasets[2].data.push(shareholdingData.diis[shareIndex]);
+    shareholdingChart.data.datasets[3].data.push(shareholdingData.govt[shareIndex]);
+    shareholdingChart.data.datasets[4].data.push(shareholdingData.retail[shareIndex]);
+
+    shareholdingChart.update();
+    shareIndex++;
+  }, 500); // animation speed
+}
+
+</script>
+
+</body>
+</html>

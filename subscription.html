@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Subscription Plans – Bear 9 Fifteen</title>
+
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, Helvetica, sans-serif;
+      background: #FFFBED;
+      color: #1F2A0A;
+    }
+
+    /* HEADER */
+    header {
+      text-align: center;
+      padding: 45px 20px;
+      border-bottom: 1px solid rgba(0,0,0,0.1);
+    }
+
+    header h1 {
+      margin: 0;
+      font-size: 32px;
+      letter-spacing: 1px;
+    }
+
+    header p {
+      margin-top: 10px;
+      font-size: 14px;
+      opacity: 0.85;
+    }
+
+    .nav-links {
+      margin-top: 25px;
+    }
+
+    .nav-links a {
+      text-decoration: none;
+      margin: 0 14px;
+      font-size: 14px;
+      font-weight: 500;
+      color: #1F2A0A;
+    }
+
+    .nav-links a:hover {
+      border-bottom: 2px solid #1F2A0A;
+      padding-bottom: 4px;
+    }
+
+    /* MAIN */
+    main {
+      max-width: 1200px;
+      margin: 70px auto;
+      padding: 0 20px;
+    }
+
+    .section-title {
+      font-size: 26px;
+      margin-bottom: 8px;
+    }
+
+    .section-subtitle {
+      font-size: 14px;
+      opacity: 0.85;
+      margin-bottom: 40px;
+    }
+
+    /* PLAN GRID */
+    .plan-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 30px;
+      margin-bottom: 80px;
+    }
+
+    .plan-card {
+      background: #FFFFFF;
+      padding: 30px;
+      border-radius: 6px;
+      box-shadow: 0 6px 15px rgba(0,0,0,0.08);
+      position: relative;
+    }
+
+    .plan-card h3 {
+      margin-top: 0;
+      font-size: 20px;
+      margin-bottom: 10px;
+    }
+
+    .price {
+      font-size: 26px;
+      font-weight: bold;
+      margin: 15px 0;
+    }
+
+    .price span {
+      font-size: 13px;
+      font-weight: normal;
+      opacity: 0.7;
+    }
+
+    .features {
+      font-size: 13px;
+      line-height: 1.7;
+      margin-bottom: 25px;
+    }
+
+    .features li {
+      margin-bottom: 6px;
+    }
+
+    .subscribe-btn {
+      width: 100%;
+      padding: 12px;
+      background: #1F2A0A;
+      color: #FFFBED;
+      border: none;
+      border-radius: 4px;
+      font-size: 14px;
+      cursor: pointer;
+    }
+
+    .subscribe-btn:hover {
+      opacity: 0.9;
+    }
+
+    /* PAYMENT */
+    .payment-section {
+      background: #FFFFFF;
+      padding: 35px;
+      border-radius: 6px;
+      box-shadow: 0 6px 15px rgba(0,0,0,0.08);
+      max-width: 700px;
+      margin: 0 auto;
+    }
+
+    .payment-section h3 {
+      margin-top: 0;
+      font-size: 22px;
+      margin-bottom: 15px;
+      text-align: center;
+    }
+
+    .payment-icons {
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+      margin-top: 20px;
+      font-size: 14px;
+      opacity: 0.8;
+    }
+
+    footer {
+      margin-top: 90px;
+      text-align: center;
+      font-size: 12px;
+      opacity: 0.7;
+      padding: 25px;
+      border-top: 1px solid rgba(0,0,0,0.1);
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- HEADER -->
+  <header>
+    <h1>Subscription Plans</h1>
+    <p>Structured access to risk intelligence, portfolio tools & capital protection frameworks.</p>
+
+    <div class="nav-links">
+      <a href="index.html">Home</a>
+      <a href="portfolio-dashboard.html">Portfolio Dashboard</a>
+      <a href="risk-engine.html">Risk Engine</a>
+    </div>
+  </header>
+
+  <!-- MAIN -->
+  <main>
+
+    <!-- RETAIL -->
+    <div>
+      <div class="section-title">Retail Investor Plans</div>
+      <div class="section-subtitle">
+        Designed for individual investors who want disciplined, risk-aware decision support.
+      </div>
+
+      <div class="plan-grid">
+        <div class="plan-card">
+          <h3>Freemium</h3>
+          <div class="price">₹0 <span>/ 1 Month</span></div>
+          <ul class="features">
+            <li>✔ Limited Risk Engine access</li>
+            <li>✔ Basic Portfolio View</li>
+            <li>✔ Education-led insights</li>
+          </ul>
+          <button class="subscribe-btn">Start Free</button>
+        </div>
+
+        <div class="plan-card">
+          <h3>Quarterly</h3>
+          <div class="price">₹199 <span>/ 3 Months</span></div>
+          <ul class="features">
+            <li>✔ Full Risk Engine</li>
+            <li>✔ SIP & Allocation Tools</li>
+            <li>✔ Market Risk Alerts</li>
+          </ul>
+          <button class="subscribe-btn">Subscribe</button>
+        </div>
+
+        <div class="plan-card">
+          <h3>Half-Yearly</h3>
+          <div class="price">₹299 <span>/ 6 Months</span></div>
+          <ul class="features">
+            <li>✔ Advanced Portfolio Dashboard</li>
+            <li>✔ Capital Preservation Signals</li>
+            <li>✔ Priority Feature Access</li>
+          </ul>
+          <button class="subscribe-btn">Subscribe</button>
+        </div>
+
+        <div class="plan-card">
+          <h3>Annual</h3>
+          <div class="price">₹499 <span>/ 1 Year</span></div>
+          <ul class="features">
+            <li>✔ All Features Unlocked</li>
+            <li>✔ Long-term Risk Cycles</li>
+            <li>✔ Premium Insights</li>
+          </ul>
+          <button class="subscribe-btn">Subscribe</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- BUSINESS -->
+    <div>
+      <div class="section-title">Business & Institutional Plans</div>
+      <div class="section-subtitle">
+        Built for startups, treasury teams & business houses managing structured capital.
+      </div>
+
+      <div class="plan-grid">
+        <div class="plan-card">
+          <h3>Business – 6 Months</h3>
+          <div class="price">₹699 <span>/ 6 Months</span></div>
+          <ul class="features">
+            <li>✔ Institutional Portfolio Framework</li>
+            <li>✔ Risk-adjusted Capital Allocation</li>
+            <li>✔ Business Cash Protection Models</li>
+          </ul>
+          <button class="subscribe-btn">Subscribe</button>
+        </div>
+
+        <div class="plan-card">
+          <h3>Business – Annual</h3>
+          <div class="price">₹1299 <span>/ 1 Year</span></div>
+          <ul class="features">
+            <li>✔ Full B2B Dashboard</li>
+            <li>✔ Strategic Capital Signals</li>
+            <li>✔ Priority Institutional Support</li>
+          </ul>
+          <button class="subscribe-btn">Subscribe</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- PAYMENT -->
+    <div class="payment-section">
+      <h3>Secure Payments</h3>
+      <p style="text-align:center;font-size:13px;opacity:0.85;">
+        Pay seamlessly using trusted payment methods.
+      </p>
+
+      <div class="payment-icons">
+        <div>💳 Debit / Credit Card</div>
+        <div>📱 UPI</div>
+        <div>🏦 Net Banking</div>
+      </div>
+    </div>
+
+  </main>
+
+  <footer>
+    © Bear 9 Fifteen — We don’t tell where to invest. We tell where not to.
+  </footer>
+
+</body>
+</html>

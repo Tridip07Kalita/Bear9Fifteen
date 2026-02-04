@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>SIP Calculator – Bear 9 Fifteen</title>
+
+  <style>
+    body {
+      font-family: Arial, Helvetica, sans-serif;
+      background: #FFFBED;
+      color: #1F2A0A;
+      margin: 0;
+    }
+
+    header {
+      padding: 35px 20px;
+      border-bottom: 1px solid #d6d3c4;
+      text-align: center;
+    }
+
+    nav a {
+      text-decoration: none;
+      font-size: 14px;
+      font-weight: bold;
+      color: #1F2A0A;
+    }
+
+    .container {
+      max-width: 420px;
+      margin: 60px auto;
+      background: #ffffff;
+      padding: 32px;
+      border-radius: 16px;
+      box-shadow: 0 10px 26px rgba(0,0,0,0.08);
+    }
+
+    h2 {
+      text-align: center;
+      margin-bottom: 25px;
+    }
+
+    label {
+      font-size: 14px;
+      font-weight: bold;
+      display: block;
+      margin-top: 15px;
+    }
+
+    input {
+      width: 100%;
+      padding: 12px;
+      margin-top: 6px;
+      border-radius: 10px;
+      border: 1px solid #d6d3c4;
+      font-size: 15px;
+    }
+
+    button {
+      width: 100%;
+      margin-top: 22px;
+      padding: 14px;
+      border: none;
+      border-radius: 10px;
+      background: #1F2A0A;
+      color: #fff;
+      font-size: 15px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    .result {
+      margin-top: 25px;
+      background: #FFF7D6;
+      padding: 18px;
+      border-radius: 10px;
+      font-size: 15px;
+    }
+
+    .risk-box {
+      margin-top: 18px;
+      padding: 16px;
+      border-radius: 10px;
+      font-size: 14px;
+      line-height: 1.6;
+      background: #F4F2E6;
+      border: 1px solid #d6d3c4;
+    }
+
+    footer {
+      text-align: center;
+      margin-top: 40px;
+      font-size: 13px;
+      color: #5a6a45;
+    }
+  </style>
+</head>
+
+<body>
+
+<header>
+  <nav>
+    <a href="index.html">← Back to Home</a>
+  </nav>
+</header>
+
+<div class="container">
+  <h2>SIP Calculator</h2>
+
+  <label>Monthly Investment (₹)</label>
+  <input type="number" id="amount" placeholder="e.g. 5000">
+
+  <label>Expected Annual Return (%)</label>
+  <input type="number" id="rate" placeholder="e.g. 12">
+
+  <label>Time Period (Years)</label>
+  <input type="number" id="years" placeholder="e.g. 10">
+
+  <button onclick="calculateSIP()">Calculate</button>
+
+  <div class="result" id="output" style="display:none;"></div>
+  <div class="risk-box" id="riskAnalysis" style="display:none;"></div>
+</div>
+
+<footer>
+  Returns shown are illustrative only. Not investment advice.
+</footer>
+
+<script>
+function calculateSIP() {
+  const P = parseFloat(document.getElementById("amount").value);
+  const annualRate = parseFloat(document.getElementById("rate").value);
+  const r = annualRate / 12 / 100;
+  const n = parseFloat(document.getElementById("years").value) * 12;
+
+  if (!P || !annualRate || !n) {
+    alert("Please enter valid inputs");
+    return;
+  }
+
+  const fv = P * ((Math.pow(1 + r, n) - 1) / r) * (1 + r);
+  const invested = P * n;
+  const returns = fv - invested;
+
+  document.getElementById("output").style.display = "block";
+  document.getElementById("output").innerHTML = `
+    <strong>Total Invested:</strong> ₹${invested.toFixed(0)}<br>
+    <strong>Estimated Returns:</strong> ₹${returns.toFixed(0)}<br>
+    <strong>Maturity Value:</strong> ₹${fv.toFixed(0)}
+  `;
+
+  const riskBox = document.getElementById("riskAnalysis");
+  riskBox.style.display = "block";
+
+  if (annualRate <= 7) {
+    riskBox.innerHTML = `
+      <strong>Risk Analysis:</strong><br>
+      The expected return is relatively low and may struggle to fully beat long-term inflation.
+      However, this approach generally carries lower volatility risk and is considered a safer
+      capital preservation-oriented strategy.
+    `;
+  } else if (annualRate > 7 && annualRate <= 12) {
+    riskBox.innerHTML = `
+      <strong>Risk Analysis:</strong><br>
+      This return expectation falls within a realistic long-term range. There is a higher probability
+      of achieving these returns despite external uncertainties, provided the investment horizon
+      is maintained for a minimum of 3 years.
+    `;
+  } else {
+    riskBox.innerHTML = `
+      <strong>Risk Analysis:</strong><br>
+      Expected returns above this level significantly increase risk. In the presence of adverse
+      macroeconomic conditions, market corrections, or regulatory shocks, achieving such returns
+      becomes highly uncertain and capital volatility may be substantial.
+    `;
+  }
+}
+</script>
+
+</body>
+</html>

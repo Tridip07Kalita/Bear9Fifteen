@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Portfolio Dashboard – Bear 9 Fifteen</title>
+
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, Helvetica, sans-serif;
+      background: #FFFBED;
+      color: #1F2A0A;
+    }
+
+    /* HEADER */
+    header {
+      padding: 40px 20px;
+      text-align: center;
+      border-bottom: 1px solid rgba(0,0,0,0.1);
+    }
+
+    header h1 {
+      margin: 0;
+      font-size: 32px;
+      letter-spacing: 1px;
+    }
+
+    header p {
+      margin-top: 10px;
+      font-size: 15px;
+      opacity: 0.85;
+    }
+
+    /* NAV */
+    .nav-links {
+      margin-top: 25px;
+    }
+
+    .nav-links a {
+      text-decoration: none;
+      margin: 0 14px;
+      font-size: 14px;
+      font-weight: 500;
+      color: #1F2A0A;
+    }
+
+    .nav-links a:hover {
+      border-bottom: 2px solid #1F2A0A;
+      padding-bottom: 4px;
+    }
+
+    /* MAIN CONTENT */
+    main {
+      max-width: 1100px;
+      margin: 60px auto;
+      padding: 0 20px;
+    }
+
+    .section-title {
+      font-size: 24px;
+      margin-bottom: 10px;
+    }
+
+    .section-subtitle {
+      font-size: 14px;
+      opacity: 0.85;
+      margin-bottom: 40px;
+      line-height: 1.6;
+    }
+
+    /* DASHBOARD GRID */
+    .dashboard-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 25px;
+    }
+
+    .card {
+      background: #FFFFFF;
+      padding: 25px;
+      border-radius: 6px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.06);
+    }
+
+    .card h3 {
+      margin-top: 0;
+      font-size: 18px;
+      margin-bottom: 10px;
+    }
+
+    .card p {
+      font-size: 13px;
+      line-height: 1.6;
+      opacity: 0.9;
+    }
+
+    /* FOOTER */
+    footer {
+      text-align: center;
+      padding: 25px;
+      font-size: 12px;
+      opacity: 0.7;
+      border-top: 1px solid rgba(0,0,0,0.1);
+      margin-top: 80px;
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- HEADER -->
+  <header>
+    <h1>Portfolio Dashboard</h1>
+    <p>
+      Institutional-grade portfolio structuring for businesses, startups & capital allocators.
+    </p>
+
+    <div class="nav-links">
+      <a href="index.html">Home</a>
+      <a href="risk-engine.html">Risk Engine</a>
+      <a href="sip-calculator.html">SIP Calculator</a>
+    </div>
+  </header>
+
+  <!-- MAIN -->
+  <main>
+    <div>
+      <div class="section-title">Capital Allocation Framework</div>
+      <div class="section-subtitle">
+        We focus on CAPITAL PREVENTION FIRST, followed by structured allocation across
+        low-risk and growth instruments. This dashboard will evolve into a
+        full-scale asset management engine for B2B clients.
+      </div>
+    </div>
+
+    <div class="dashboard-grid">
+      <div class="card">
+        <h3>Fixed Deposits & Cash</h3>
+        <p>
+          Liquidity buffer for operational safety, salary cover, and downside protection.
+        </p>
+      </div>
+
+      <div class="card">
+        <h3>Debt & Bonds</h3>
+        <p>
+          Stable income instruments to balance volatility and preserve purchasing power.
+        </p>
+      </div>
+
+      <div class="card">
+        <h3>Mutual Funds</h3>
+        <p>
+          Risk-adjusted exposure across debt, hybrid, and equity-oriented funds.
+        </p>
+      </div>
+
+      <div class="card">
+        <h3>Equities</h3>
+        <p>
+          Selective equity allocation based on risk cycles, valuations, and macro conditions.
+        </p>
+      </div>
+    </div>
+  </main>
+
+  <!-- FOOTER -->
+  <footer>
+    © Bear 9 Fifteen — Risk First. Capital Protected.
+  </footer>
+
+</body>
+</html>

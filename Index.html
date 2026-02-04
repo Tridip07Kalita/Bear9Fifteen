@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Bear 9 Fifteen – Risk First</title>
+
+  <style>
+    body {
+      font-family: Arial, Helvetica, sans-serif;
+      background: #FFFBED;
+      color: #1F2A0A;
+      margin: 0;
+    }
+
+    header {
+      padding: 55px 20px;
+      text-align: center;
+      border-bottom: 1px solid #d6d3c4;
+    }
+
+    .logo {
+      width: 210px;
+      margin-bottom: 22px;
+    }
+
+    header p {
+      font-size: 20px;
+      font-weight: 700;
+      letter-spacing: 0.6px;
+      margin: 0;
+    }
+
+    nav {
+      margin-top: 26px;
+    }
+
+    nav a {
+      margin: 0 14px;
+      text-decoration: none;
+      font-size: 14px;
+      color: #1F2A0A;
+      font-weight: bold;
+    }
+
+    nav a:hover {
+      text-decoration: underline;
+    }
+
+    .container {
+      max-width: 1100px;
+      margin: 55px auto;
+      padding: 0 20px;
+    }
+
+    .card {
+      background: #ffffff;
+      border-radius: 16px;
+      padding: 32px;
+      margin-bottom: 40px;
+      box-shadow: 0 10px 26px rgba(0,0,0,0.08);
+    }
+
+    .card h2 {
+      margin-top: 0;
+      margin-bottom: 14px;
+      font-size: 24px;
+    }
+
+    .card p {
+      font-size: 15.5px;
+      line-height: 1.75;
+      margin-bottom: 16px;
+    }
+
+    .sub {
+      font-size: 14px;
+      color: #5a6a45;
+      margin-bottom: 22px;
+    }
+
+    /* FLOW */
+    .flow {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 14px;
+      margin-top: 35px;
+      flex-wrap: wrap;
+    }
+
+    .flow-step {
+      background: #f4f2e6;
+      padding: 18px 20px;
+      border-radius: 14px;
+      font-size: 14px;
+      font-weight: bold;
+      text-align: center;
+      min-width: 170px;
+      box-shadow: inset 0 0 0 1px #d6d3c4;
+    }
+
+    .arrow {
+      font-size: 22px;
+      font-weight: bold;
+      color: #5a6a45;
+    }
+
+    /* DISCLAIMER */
+    .disclaimer {
+      background: #f4f2e6;
+      border-radius: 14px;
+      padding: 22px 26px;
+      font-size: 13.5px;
+      line-height: 1.6;
+      color: #5a6a45;
+      box-shadow: inset 0 0 0 1px #d6d3c4;
+    }
+
+    .disclaimer strong {
+      color: #1F2A0A;
+    }
+
+    footer {
+      text-align: center;
+      padding: 30px;
+      font-size: 13px;
+      color: #5a6a45;
+    }
+
+    @media (max-width: 900px) {
+      .flow {
+        flex-direction: column;
+      }
+      .arrow {
+        transform: rotate(90deg);
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+<header>
+  <img src="bear915-logo.png" class="logo" alt="Bear 9 Fifteen Logo" />
+  <p>We don’t tell where to invest. We tell where not to.</p>
+
+  <nav>
+    <a href="#overview">Overview</a>
+    <a href="risk-engine.html">Risk Engine</a>
+    <a href="sip-calculator.html">SIP Calculator</a>
+    <a href="portfolio-dashboard.html">Portfolio Dashboard</a>
+    <a href="subscription.html">Subscription</a>
+  </nav>
+</header>
+
+<div class="container">
+
+  <!-- OVERVIEW -->
+  <div class="card" id="overview">
+    <h2>What We Do</h2>
+
+    <p>
+      We are an AI-integrated risk intelligence company built on a simple but powerful belief:
+      <strong>knowing where <em>not</em> to invest is just as important as knowing where to invest.</strong>
+    </p>
+
+    <p>
+      Instead of giving buy or sell recommendations, we focus on uncovering the
+      <strong>hidden risks, limitations, and downside scenarios</strong> of companies.
+      Our platform helps investors ask the right question before investing:
+      <em>Does this investment truly justify the risk I’m taking?</em>
+    </p>
+
+    <p>
+      Using our proprietary <strong>AI-driven risk matrix</strong>, we evaluate multiple
+      dimensions of risk and assign a <strong>Risk Score out of 5</strong>.
+      Our goal is not to influence decisions, but to
+      <strong>empower better decisions</strong>.
+    </p>
+  </div>
+
+  <!-- HOW IT WORKS -->
+  <div class="card" id="risk">
+    <h2>How the Risk Engine Works</h2>
+    <div class="sub">A simple, structured way to investigate downside risk.</div>
+
+    <div class="flow">
+      <div class="flow-step">Enter Company Name</div>
+      <div class="arrow">→</div>
+      <div class="flow-step">Deep Risk Analysis</div>
+      <div class="arrow">→</div>
+      <div class="flow-step">Key Limitations Identified</div>
+      <div class="arrow">→</div>
+      <div class="flow-step">Risk Score (out of 5)</div>
+      <div class="arrow">→</div>
+      <div class="flow-step">
+        3–5 Downside Price Zones<br />
+        <span style="font-weight: normal;">(Technical Analysis)</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- DISCLAIMER -->
+  <div class="disclaimer">
+    <strong>Disclaimer:</strong> Bear 9 Fifteen is currently in its early stage of development.
+    The platform is being built as an AI-integrated risk intelligence and educational tool.
+    The information provided does <strong>not</strong> constitute investment advice and should
+    not be interpreted as a recommendation to buy, sell, or hold any security.
+    All insights are intended solely to highlight potential risks and limitations.
+    Users are advised to conduct their own research and consult qualified professionals
+    before making any investment decisions.
+  </div>
+
+</div>
+
+<footer>
+  © 2026 Bear 9 Fifteen · Risk-First Investing Platform (Concept)
+</footer>
+
+</body>
+</html>
