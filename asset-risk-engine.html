@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Asset Risk Engine – Bear 9 Fifteen</title>
+
+  <!-- Chart.js -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+  <style>
+    body {
+      font-family: Arial, Helvetica, sans-serif;
+      background: #FFFBED;
+      color: #1F2A0A;
+      margin: 0;
+    }
+
+    header {
+      padding: 40px 20px;
+      border-bottom: 1px solid #d6d3c4;
+    }
+
+    .header-wrap {
+      max-width: 1100px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    header h1 {
+      margin: 0;
+      font-size: 28px;
+    }
+
+    header p {
+      margin-top: 8px;
+      font-size: 15px;
+      color: #5a6a45;
+    }
+
+    nav a {
+      text-decoration: none;
+      font-size: 14px;
+      font-weight: bold;
+      color: #1F2A0A;
+      border: 1px solid #d6d3c4;
+      padding: 10px 16px;
+      border-radius: 10px;
+      background: #f4f2e6;
+    }
+
+    .container {
+      max-width: 1000px;
+      margin: 50px auto;
+      padding: 0 20px;
+    }
+
+    .search-box {
+      text-align: center;
+      margin-bottom: 35px;
+    }
+
+    .search-box input {
+      width: 60%;
+      padding: 14px;
+      font-size: 16px;
+      border-radius: 10px;
+      border: 1px solid #d6d3c4;
+    }
+
+    .search-box button {
+      padding: 14px 22px;
+      margin-left: 10px;
+      font-size: 15px;
+      font-weight: bold;
+      border-radius: 10px;
+      border: none;
+      background: #1F2A0A;
+      color: #fff;
+      cursor: pointer;
+    }
+
+    .card {
+      display: none;
+      background: #ffffff;
+      padding: 35px;
+      border-radius: 16px;
+      box-shadow: 0 10px 26px rgba(0,0,0,0.08);
+    }
+
+    h3 {
+      margin-top: 30px;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 15px;
+      font-size: 14px;
+    }
+
+    th, td {
+      border: 1px solid #d6d3c4;
+      padding: 10px;
+      text-align: left;
+    }
+
+    th {
+      background: #f4f2e6;
+    }
+
+    .analysis {
+      margin-top: 15px;
+      color: #5a6a45;
+      line-height: 1.6;
+    }
+
+    footer {
+      text-align: center;
+      padding: 30px;
+      font-size: 13px;
+      color: #5a6a45;
+    }
+  </style>
+</head>
+
+<body>
+
+<header>
+  <div class="header-wrap">
+    <div>
+      <h1>Asset Risk Engine</h1>
+      <p>Risk & return analysis across asset classes.</p>
+    </div>
+    <nav>
+      <a href="index.html">← Back to Home</a>
+    </nav>
+  </div>
+</header>
+
+<div class="container">
+
+  <div class="search-box">
+    <input type="text" id="assetInput" placeholder="Type FD, Nifty 50, Gold, Silver..." />
+    <button onclick="analyzeAsset()">Analyze</button>
+  </div>
+
+  <div class="card" id="resultCard">
+    <div id="resultContent"></div>
+
+    <!-- FD chart (HIDDEN BY DEFAULT) -->
+    <canvas id="fdChart" height="120" style="display:none;"></canvas>
+  </div>
+
+</div>
+
+<footer>
+  © 2026 Bear 9 Fifteen · Asset Risk Engine (MVP)
+</footer>
+
+<script>
+let fdChartInstance = null;
+
+function analyzeAsset() {
+  const input = document.getElementById("assetInput").value.toLowerCase();
+  const card = document.getElementById("resultCard");
+  const content = document.getElementById("resultContent");
+  const chartCanvas = document.getElementById("fdChart");
+
+  // RESET EVERYTHING FIRST
+  content.innerHTML = "";
+  chartCanvas.style.display = "none";
+  card.style.display = "block";
+
+  if (fdChartInstance) {
+    fdChartInstance.destroy();
+    fdChartInstance = null;
+  }
+
+  /* ================= FD / FIXED DEPOSIT ================= */
+  if (input.includes("fd") || input.includes("fixed")) {
+
+    content.innerHTML = `
+      <h2>Fixed Deposit (FD)</h2>
+
+      <h3>Current FD Rates (General Public)</h3>
+      <table>
+        <tr><th>Bank</th><th>Min (%)</th><th>Max (%)</th></tr>
+        <tr><td>SBI</td><td>3.05</td><td>6.40</td></tr>
+        <tr><td>HDFC Bank</td><td>2.75</td><td>6.45</td></tr>
+        <tr><td>ICICI Bank</td><td>3.00</td><td>7.25</td></tr>
+        <tr><td>Bank of Baroda</td><td>3.50</td><td>6.45</td></tr>
+      </table>
+
+      <div class="analysis">
+        Fixed Deposits are perceived as the safest investment class, but they carry a hidden risk — inflation.
+        Minimum FD rates fail to beat India’s long-term average inflation, leading to erosion of real purchasing power.
+        Only higher-tenure FDs marginally protect capital.
+      </div>
+    `;
+
+    chartCanvas.style.display = "block";
+    drawFDChart();
+  }
+
+  /* ================= NIFTY 50 ================= */
+  else if (input.includes("nifty")) {
+
+    content.innerHTML = `
+      <h2>Nifty 50</h2>
+
+      <table>
+        <tr><th>Year</th><th>Return (%)</th><th>Key Drivers</th></tr>
+        <tr><td>2023</td><td>+20%</td><td>Post-COVID recovery, GDP growth</td></tr>
+        <tr><td>2024</td><td>+12%</td><td>Election stability, FII inflows</td></tr>
+        <tr><td>2025</td><td>-2% (YTD)</td><td>Global rate uncertainty</td></tr>
+      </table>
+
+      <div class="analysis">
+        Nifty delivered ~41% cumulative returns over three years, significantly outperforming FDs and inflation.
+        Despite volatility, valuations remain reasonable (~22x PE). Suitable for 5+ year wealth creation.
+      </div>
+    `;
+  }
+
+  /* ================= GOLD ================= */
+  else if (input.includes("gold")) {
+
+    content.innerHTML = `
+      <h2>Gold</h2>
+
+      <table>
+        <tr><th>Year</th><th>Avg Price (₹/10g)</th><th>Return (%)</th></tr>
+        <tr><td>2023</td><td>63,800</td><td>+15%</td></tr>
+        <tr><td>2024</td><td>77,600</td><td>+22%</td></tr>
+        <tr><td>2025</td><td>1,01,350</td><td>+30%</td></tr>
+      </table>
+
+      <div class="analysis">
+        Gold generated ~110% returns over three years, outperforming inflation and acting as a strong portfolio hedge.
+        Best suited as a 20–30% allocation for diversification.
+      </div>
+    `;
+  }
+
+  /* ================= SILVER ================= */
+  else if (input.includes("silver")) {
+
+    content.innerHTML = `
+      <h2>Silver</h2>
+
+      <table>
+        <tr><th>Year</th><th>Avg Price (₹/kg)</th><th>Return (%)</th></tr>
+        <tr><td>2023</td><td>65,000</td><td>+12%</td></tr>
+        <tr><td>2024</td><td>80,000</td><td>+28%</td></tr>
+        <tr><td>2025</td><td>1,00,000+</td><td>+100%+</td></tr>
+      </table>
+
+      <div class="analysis">
+        Silver delivered explosive returns but with extreme volatility.
+        Suitable only for aggressive investors with limited allocation (5–10%).
+      </div>
+    `;
+  }
+
+  else {
+    card.style.display = "none";
+    alert("Asset not supported yet.");
+  }
+}
+
+/* ================= FD vs Inflation Chart ================= */
+function drawFDChart() {
+  const ctx = document.getElementById("fdChart").getContext("2d");
+
+  fdChartInstance = new Chart(ctx, {
+    type: "line",
+    data: {
+      labels: ["2023", "2024", "2025"],
+      datasets: [
+        {
+          label: "Inflation (%)",
+          data: [5.7, 4.9, 2.2],
+          borderWidth: 3
+        },
+        {
+          label: "Min FD (%)",
+          data: [4.5, 4.5, 4.75],
+          borderWidth: 3
+        },
+        {
+          label: "Max FD (%)",
+          data: [7.45, 7.25, 7.0],
+          borderWidth: 3
+        }
+      ]
+    },
+    options: {
+      responsive: true,
+      plugins: {
+        legend: { position: "bottom" }
+      }
+    }
+  });
+}
+</script>
+
+</body>
+</html>
